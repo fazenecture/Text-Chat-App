@@ -23,7 +23,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with  SingleTickerProvide
       vsync: this,
       // upperBound: 60.0,
     );
-    animation = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
     controller.forward();
     controller.addListener(() {
       setState(() {
@@ -48,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> with  SingleTickerProvide
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 60,
+                    height: animation.value*60,
                   ),
                 ),
                 Text(
