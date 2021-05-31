@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "742808017737",
+    "project_id": "flash-chat-fcea1",
+    "storage_bucket": "flash-chat-fcea1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742808017737:android:4bc92adb81fe40d93d1898",
+        "android_client_info": {
+          "package_name": "co.fazenecture.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742808017737-5og2sonibrdjm3hsn8f25b9ci471r56p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlwrjqx1nFuUZh9XfkfbIKmlULo0v-wSQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742808017737-5og2sonibrdjm3hsn8f25b9ci471r56p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
