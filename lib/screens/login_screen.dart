@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Form(
       key: _formKey,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFF17202c),
         body: ModalProgressHUD(
           inAsyncCall: showSpinner,
           child: Padding(
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Enter your email',
-                    hintStyle: TextStyle(fontSize: 14, color: Color(0xFF524F4F)),
+                    hintStyle: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.6)),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                     border: OutlineInputBorder(
@@ -70,18 +70,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF17202c), width: 1.0),
+                          BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF17202c), width: 2.0),
+                          BorderSide(color: Colors.white, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                   ),
                 ),
                 SizedBox(
-                  height: 8.0,
+                  height: 14.0,
                 ),
                 TextFormField(
                   validator: (value) {
@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                     return null;
                   },
-                  cursorColor: Color(0xFF17202c),
+                  cursorColor: Colors.white,
                   textAlign: TextAlign.center,
                   obscureText: true,
                   style: TextStyle(color: Colors.black),
@@ -99,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Enter your password.',
-                    hintStyle: TextStyle(fontSize: 14, color: Color(0xFF524F4F)),
+                    hintStyle: TextStyle(fontSize: 14, color: Colors.white.withOpacity(0.6)),
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                     border: OutlineInputBorder(
@@ -107,12 +107,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF17202c), width: 1.0),
+                          BorderSide(color: Colors.white, width: 1.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xFF17202c), width: 2.0),
+                          BorderSide(color: Colors.white, width: 2.0),
                       borderRadius: BorderRadius.all(Radius.circular(32.0)),
                     ),
                   ),
@@ -120,9 +120,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 24.0,
                 ),
-                RoundedButton(
-                  title: 'Log In',
-                  color: Color(0xFF17202c),
+                MaterialButton(
+                  height: 48,
+                  elevation: 0,
+                  color: Color(0xFF1B2C2F),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(color: Colors.white.withOpacity(0.7))
+                  ),
+                  child: Text(
+                    'Log In',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15
+                    ),
+                  ),
                   onPressed: () async{
 
                     if(_formKey.currentState.validate()){

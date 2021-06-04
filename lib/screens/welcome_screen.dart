@@ -7,7 +7,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class WelcomeScreen extends StatefulWidget {
   static String id = 'welcome_screen';
 
@@ -19,7 +18,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
   Animation animation;
-
 
   @override
   void initState() {
@@ -41,7 +39,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: animation.value,
+      backgroundColor: Color(0xFF17202c),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -63,6 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         textStyle: TextStyle(
                           fontSize: 45.0,
                           fontWeight: FontWeight.w900,
+                          color: Colors.white
                         ),
                         speed: const Duration(milliseconds: 100)),
                   ],
@@ -73,16 +72,52 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             SizedBox(
               height: 48.0,
             ),
-            RoundedButton(
-              title: 'Log In',
+            // RoundedButton(
+            //   title: 'Log In',
+            //   color: Color(0xFF17202c),
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, LoginScreen.id);
+            //   },
+            // ),
+            MaterialButton(
+              height: 48,
+              elevation: 0,
               color: Color(0xFF17202c),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: Colors.white.withOpacity(0.7))
+              ),
+              child: Text(
+                'Log In',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15
+                ),
+              ),
+
               onPressed: () {
                 Navigator.pushNamed(context, LoginScreen.id);
               },
             ),
-            RoundedButton(
-              title: 'Register',
-              color: Color(0xff13232d),
+            SizedBox(
+              height: 30,
+            ),
+            MaterialButton(
+              height: 48,
+              elevation: 0,
+              color: Color(0xFF17202c),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Colors.white.withOpacity(0.7))
+              ),
+              child: Text(
+                'Register',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15
+                ),
+              ),
+
               onPressed: () {
                 Navigator.pushNamed(context, RegistrationScreen.id);
               },
