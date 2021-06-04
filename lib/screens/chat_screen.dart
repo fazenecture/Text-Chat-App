@@ -1,3 +1,4 @@
+import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,6 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
       child: Scaffold(
         backgroundColor: Color(0xFF17202c),
         appBar: AppBar(
+          elevation: 0,
           leading: null,
           actions: <Widget>[
             IconButton(
@@ -70,7 +72,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   // messagesStream();
 
                   _auth.signOut();
-                  Navigator.pop(context);
+                  Navigator.popAndPushNamed(context, WelcomeScreen.id);
                 }),
           ],
           title: Text('⚡️Chat'),

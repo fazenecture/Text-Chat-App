@@ -20,6 +20,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   AnimationController controller;
   Animation animation;
 
+
   @override
   void initState() {
     super.initState();
@@ -81,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             ),
             RoundedButton(
               title: 'Register',
-              color: Colors.lightBlue,
+              color: Color(0xff13232d),
               onPressed: () {
                 Navigator.pushNamed(context, RegistrationScreen.id);
               },

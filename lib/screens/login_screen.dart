@@ -17,117 +17,137 @@ class _LoginScreenState extends State<LoginScreen> {
   String email;
   String password;
   bool showSpinner = false;
+  final _formKey = GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ModalProgressHUD(
-        inAsyncCall: showSpinner,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Flexible(
-                child: Hero(
-                  tag: 'logo',
-                  child: Container(
-                    height: 200.0,
-                    child: Image.asset('images/logo.png'),
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: ModalProgressHUD(
+          inAsyncCall: showSpinner,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Flexible(
+                  child: Hero(
+                    tag: 'logo',
+                    child: Container(
+                      height: 200.0,
+                      child: Image.asset('images/logo.png'),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                cursorColor: Color(0xFF17202c),
-                keyboardType: TextInputType.emailAddress,
-                style: TextStyle(color: Colors.black),
-                textAlign: TextAlign.center,
-                onChanged: (value) {
-                  email = value;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Enter your email',
-                  hintStyle: TextStyle(fontSize: 14, color: Color(0xFF524F4F)),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color(0xFF17202c), width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color(0xFF17202c), width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                SizedBox(
+                  height: 48.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your email address';
+                    }
+                    return null;
+                  },
+                  cursorColor: Color(0xFF17202c),
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(color: Colors.black),
+                  textAlign: TextAlign.center,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Enter your email',
+                    hintStyle: TextStyle(fontSize: 14, color: Color(0xFF524F4F)),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFF17202c), width: 1.0),
+                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFF17202c), width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                cursorColor: Color(0xFF17202c),
-                textAlign: TextAlign.center,
-                obscureText: true,
-                style: TextStyle(color: Colors.black),
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Enter your password.',
-                  hintStyle: TextStyle(fontSize: 14, color: Color(0xFF524F4F)),
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color(0xFF17202c), width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Color(0xFF17202c), width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                SizedBox(
+                  height: 8.0,
+                ),
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your password';
+                    }
+                    return null;
+                  },
+                  cursorColor: Color(0xFF17202c),
+                  textAlign: TextAlign.center,
+                  obscureText: true,
+                  style: TextStyle(color: Colors.black),
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Enter your password.',
+                    hintStyle: TextStyle(fontSize: 14, color: Color(0xFF524F4F)),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFF17202c), width: 1.0),
+                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color(0xFF17202c), width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
-              RoundedButton(
-                title: 'Log In',
-                color: Color(0xFF17202c),
-                onPressed: () async{
-                  setState(() {
-                    showSpinner = true;
-                  });
-                 try {
-                   final user = await _auth.signInWithEmailAndPassword(
-                       email: email, password: password);
+                SizedBox(
+                  height: 24.0,
+                ),
+                RoundedButton(
+                  title: 'Log In',
+                  color: Color(0xFF17202c),
+                  onPressed: () async{
 
-                   if (user != null) {
-                     setState(() {
-                       showSpinner =false;
-                     });
-                     Navigator.pushNamed(context, ChatScreen.id);
-                   }
-                 }
-                 catch(e){
-                   print(e);
-                 }
-                },
-              ),
-            ],
+                    if(_formKey.currentState.validate()){
+                      setState(() {
+                        showSpinner = true;
+                      });
+                      try {
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+
+                        if (user != null) {
+                          setState(() {
+                            showSpinner =false;
+                          });
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }
+                      }
+                      catch(e){
+                        print(e);
+                      }
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
