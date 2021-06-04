@@ -43,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 48.0,
               ),
               TextField(
+                cursorColor: Color(0xFF17202c),
                 keyboardType: TextInputType.emailAddress,
                 style: TextStyle(color: Colors.black),
                 textAlign: TextAlign.center,
@@ -59,12 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                        BorderSide(color: Color(0xFF17202c), width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                        BorderSide(color: Color(0xFF17202c), width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                 ),
@@ -73,6 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 8.0,
               ),
               TextField(
+                cursorColor: Color(0xFF17202c),
                 textAlign: TextAlign.center,
                 obscureText: true,
                 style: TextStyle(color: Colors.black),
@@ -89,12 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                        BorderSide(color: Color(0xFF17202c), width: 1.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+                        BorderSide(color: Color(0xFF17202c), width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(32.0)),
                   ),
                 ),
@@ -104,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RoundedButton(
                 title: 'Log In',
-                color: Colors.lightBlueAccent,
+                color: Color(0xFF17202c),
                 onPressed: () async{
                   setState(() {
                     showSpinner = true;

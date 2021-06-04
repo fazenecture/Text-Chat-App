@@ -3,7 +3,7 @@ import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
-
+import 'package:bubble/bubble.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -19,6 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   String messageText;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -46,73 +47,124 @@ class _ChatScreenState extends State<ChatScreen> {
   //   }
   // }
 
-  void messagesStream() async {
-    await for (var snapshot in _firestore.collection('messages').snapshots()) {
-      for (var message in snapshot.docs) {
-        print(message.data());
-      }
-    }
-  }
+  // void messagesStream() async {
+  //   await for (var snapshot in _firestore.collection('messages').snapshots()) {
+  //     for (var message in snapshot.docs) {
+  //       print(message.data());
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: null,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () {
-                // messagesStream();
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        backgroundColor: Color(0xFF17202c),
+        appBar: AppBar(
+          leading: null,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () {
+                  // messagesStream();
 
-                _auth.signOut();
-                Navigator.pop(context);
-              }),
-        ],
-        title: Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
-      ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            MessageStream(),
-            Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: messageTextController,
-                      onChanged: (value) {
-                        messageText = value;
-                      },
-                      decoration: kMessageTextFieldDecoration,
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      print(DateTime.now().toString());
-                      messageTextController.clear();
-                      _firestore.collection('messages').add(
-                        {
-                          'text': messageText,
-                          'sender': loggedInUser.email,
-                          'date and time': DateTime.now().toString(),
-                        },
-                      );
-                    },
-                    child: Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                  _auth.signOut();
+                  Navigator.pop(context);
+                }),
           ],
+          title: Text('⚡️Chat'),
+          backgroundColor: Color(0xFF17202c),
+        ),
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              MessageStream(),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border(
+                        top: BorderSide(
+                            color: Colors.white.withOpacity(0.2), width: 1.0),
+                        right: BorderSide(
+                            color: Colors.white.withOpacity(0.2), width: 1.0),
+                        bottom: BorderSide(
+                          color: Colors.white.withOpacity(0.2),
+                          width: 1.0,
+                        ),
+                        left: BorderSide(
+                            color: Colors.white.withOpacity(0.2), width: 1.0)),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please';
+                            }
+                            return null;
+                          },
+
+                          controller: messageTextController,
+                          onChanged: (value) {
+                            messageText = value;
+                          },
+                          decoration: kMessageTextFieldDecoration,
+                          onFieldSubmitted: (value){
+                            if (_formKey.currentState.validate()) {
+                              messageTextController.clear();
+                              _firestore.collection('messages').add(
+                                {
+                                  'text': messageText,
+                                  'sender': loggedInUser.email,
+                                  'date and time': DateTime.now().toString(),
+                                },
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      TextButton.icon(
+                        label: Text(''),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            messageTextController.clear();
+                            _firestore.collection('messages').add(
+                              {
+                                'text': messageText,
+                                'sender': loggedInUser.email,
+                                'date and time': DateTime.now().toString(),
+                              },
+                            );
+                          }
+                          // print(DateTime.now().toString());
+                        },
+                        style: ButtonStyle(
+                          overlayColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                        ),
+                        icon: Icon(
+                          Icons.send,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                        // child: Text(
+                        //   'Send',
+                        //   style: kSendButtonTextStyle,
+                        // ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -145,6 +197,7 @@ class MessageStream extends StatelessWidget {
             text: messageText,
             isMe: currentUser == messageSender,
             dateTime: messageDateTime,
+            currentTime: messageDateTime.toString().substring(11, 16),
           );
           messageBubbles.add(messageBubble);
           messageBubbles.sort((a, b) =>
@@ -163,51 +216,90 @@ class MessageStream extends StatelessWidget {
 }
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({this.sender, this.text,this.isMe,this.dateTime});
+  MessageBubble(
+      {this.sender, this.text, this.isMe, this.dateTime, this.currentTime});
 
   final String sender;
   final String text;
   final bool isMe;
   final String dateTime;
-
+  final String currentTime;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(1.0),
       child: Column(
-        crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          Text(
-            '$sender',
-            style: TextStyle(
-              color: Colors.white,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment:
+                  isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+              // children: [
+              //   Text(
+              //     '$sender',
+              //     style: TextStyle(
+              //       color: Colors.white,
+              //       fontSize: 12,
+              //       fontWeight: FontWeight.w500,
+              //     ),
+              //   ),
+              //   Padding(
+              //     padding: EdgeInsets.fromLTRB(18, 6, 2, 2),
+              //     child: Text(
+              //       '$currentTime',
+              //       textAlign: TextAlign.right,
+              //       style: TextStyle(
+              //           fontSize: 10,
+              //           color: Colors.white.withOpacity(0.8),
+              //           fontStyle: FontStyle.italic),
+              //     ),
+              //   ),
+              // ],
             ),
           ),
-          Material(
-            color: isMe ? Colors.white : Colors.blueAccent,
-            elevation: 5.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: isMe ? BorderRadius.only(
-                topLeft: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ) : BorderRadius.only(
-                topRight: Radius.circular(30),
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-            ),
+          Bubble(
+            margin: isMe ? BubbleEdges.fromLTRB(80, 1, 0, 1) : BubbleEdges.fromLTRB(0, 1, 80, 1),
+            color: isMe ? Color(0xFF348065) : Color(0xFF585f67),
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              child: Text(
-                '$text',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: isMe ? Colors.blueAccent : Colors.white,
-                ),
+              padding: const EdgeInsets.all(3.0),
+
+              child: Column(
+                crossAxisAlignment: isMe? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '$sender',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6,bottom: 6),
+                    child: Text(
+                      '$text',
+                      textAlign: isMe ? TextAlign.right : TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    '$currentTime',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9
+                    ),
+                  ),
+                ],
               ),
             ),
+            nip: isMe ? BubbleNip.rightTop : BubbleNip.leftTop,
           ),
         ],
       ),
