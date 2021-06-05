@@ -62,7 +62,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   },
                   keyboardType: TextInputType.emailAddress,
                   style: TextStyle(
-                      color: Colors.black
+                      color: Colors.white
                   ),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
@@ -104,7 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     password = value;
                   },
                   style: TextStyle(
-                    color: Colors.black
+                    color: Colors.white
                   ),
                   decoration: InputDecoration(
                     hintText: 'Enter your password',

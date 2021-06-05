@@ -75,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   Navigator.popAndPushNamed(context, WelcomeScreen.id);
                 }),
           ],
-          title: Text('⚡️Chat'),
+          title: Text('Chat Room'),
           backgroundColor: Color(0xFF17202c),
         ),
         body: SafeArea(

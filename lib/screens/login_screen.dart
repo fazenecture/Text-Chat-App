@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   cursorColor: Color(0xFF17202c),
                   keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     email = value;
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   cursorColor: Colors.white,
                   textAlign: TextAlign.center,
                   obscureText: true,
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                   onChanged: (value) {
                     password = value;
                   },
