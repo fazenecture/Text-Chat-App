@@ -1,4 +1,5 @@
 import 'package:flash_chat/screens/welcome_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -64,13 +65,16 @@ class _ChatScreenState extends State<ChatScreen> {
         backgroundColor: Color(0xFF17202c),
         appBar: AppBar(
           elevation: 0,
-          leading: null,
+          leading: Icon(
+            CupertinoIcons.back,
+            color: Colors.white,
+          ),
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.logout),
                 onPressed: () {
-                  // messagesStream();
 
+                  // messagesStream();
                   _auth.signOut();
                   Navigator.popAndPushNamed(context, WelcomeScreen.id);
                 }),
@@ -78,47 +82,69 @@ class _ChatScreenState extends State<ChatScreen> {
           title: Text('Chat Room'),
           backgroundColor: Color(0xFF17202c),
         ),
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              MessageStream(),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border(
-                        top: BorderSide(
-                            color: Colors.white.withOpacity(0.2), width: 1.0),
-                        right: BorderSide(
-                            color: Colors.white.withOpacity(0.2), width: 1.0),
-                        bottom: BorderSide(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 1.0,
-                        ),
-                        left: BorderSide(
-                            color: Colors.white.withOpacity(0.2), width: 1.0)),
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Expanded(
-                        child: TextFormField(
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please';
-                            }
-                            return null;
-                          },
+        body: Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage("images/whatsapp-background.png"),
+                  fit: BoxFit.cover)),
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                MessageStream(),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border(
+                          top: BorderSide(
+                              color: Colors.white.withOpacity(0.2), width: 1.0),
+                          right: BorderSide(
+                              color: Colors.white.withOpacity(0.2), width: 1.0),
+                          bottom: BorderSide(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 1.0,
+                          ),
+                          left: BorderSide(
+                              color: Colors.white.withOpacity(0.2), width: 1.0)),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please';
+                              }
+                              return null;
+                            },
 
-                          controller: messageTextController,
-                          onChanged: (value) {
-                            messageText = value;
-                          },
-                          decoration: kMessageTextFieldDecoration,
-                          onFieldSubmitted: (value){
+                            controller: messageTextController,
+                            onChanged: (value) {
+                              messageText = value;
+                            },
+                            decoration: kMessageTextFieldDecoration,
+                            onFieldSubmitted: (value){
+                              if (_formKey.currentState.validate()) {
+                                messageTextController.clear();
+                                _firestore.collection('messages').add(
+                                  {
+                                    'text': messageText,
+                                    'sender': loggedInUser.email,
+                                    'date and time': DateTime.now().toString(),
+                                  },
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                        TextButton.icon(
+                          label: Text(''),
+                          onPressed: () {
                             if (_formKey.currentState.validate()) {
                               messageTextController.clear();
                               _firestore.collection('messages').add(
@@ -129,43 +155,28 @@ class _ChatScreenState extends State<ChatScreen> {
                                 },
                               );
                             }
+                            // print(DateTime.now().toString());
                           },
+                          style: ButtonStyle(
+                            overlayColor:
+                                MaterialStateProperty.all(Colors.transparent),
+                          ),
+                          icon: Icon(
+                            Icons.send,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                          // child: Text(
+                          //   'Send',
+                          //   style: kSendButtonTextStyle,
+                          // ),
                         ),
-                      ),
-                      TextButton.icon(
-                        label: Text(''),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            messageTextController.clear();
-                            _firestore.collection('messages').add(
-                              {
-                                'text': messageText,
-                                'sender': loggedInUser.email,
-                                'date and time': DateTime.now().toString(),
-                              },
-                            );
-                          }
-                          // print(DateTime.now().toString());
-                        },
-                        style: ButtonStyle(
-                          overlayColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                        ),
-                        icon: Icon(
-                          Icons.send,
-                          size: 18,
-                          color: Colors.white,
-                        ),
-                        // child: Text(
-                        //   'Send',
-                        //   style: kSendButtonTextStyle,
-                        // ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -183,7 +194,8 @@ class MessageStream extends StatelessWidget {
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(
-              backgroundColor: Colors.lightBlueAccent,
+              backgroundColor: Colors.white,
+              color: Color(0xFF17202c),
             ),
           );
         }
@@ -276,6 +288,7 @@ class MessageBubble extends StatelessWidget {
                     '$sender',
                     style: TextStyle(
                       color: Colors.white,
+                      // backgroundColor: Color(0xFF2A6551),
                       fontSize: 12,
                       fontWeight: FontWeight.w800
                     ),
@@ -295,6 +308,7 @@ class MessageBubble extends StatelessWidget {
                     '$currentTime',
                     style: TextStyle(
                       color: Colors.white,
+                      fontStyle: FontStyle.italic,
                       fontSize: 9
                     ),
                   ),
